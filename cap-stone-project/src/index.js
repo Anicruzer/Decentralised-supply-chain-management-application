@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 import { inject } from '@vercel/analytics';
 import { BrowserRouter } from 'react-router-dom';
+
  
 inject();
 

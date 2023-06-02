@@ -1,22 +1,35 @@
-import { Heading } from '@chakra-ui/react';
 import {
-    ChakraProvider,
-    Box,
-    Text,
-    Link,
-    VStack,
-    Code,
-    Grid,
-    theme,
-    Button, InputGroup, InputLeftAddon, Input, InputRightAddon, Highlight, FormControl, FormHelperText, FormErrorMessage, Card, CardHeader, CardBody, Divider, shouldForwardProp
-  } from '@chakra-ui/react';
-import React from 'react';
+  Heading,
+  ChakraProvider,
+  Box,
+  Text,
+  Link,
+  VStack,
+  Code,
+  Grid,
+  theme,
+  Button,
+  InputGroup,
+  InputLeftAddon,
+  Input,
+  InputRightAddon,
+  Highlight,
+  FormControl,
+  FormHelperText,
+  FormErrorMessage,
+  Card,
+  CardHeader,
+  CardBody,
+  Divider,
+  shouldForwardProp
+} from '@chakra-ui/react';
+import React, { useState } from 'react';
 
+function Home(props) {
+  
 
-function Home() {
   return (
-      <VStack spacing={8} m="10vw">
-    
+    <VStack spacing={8} m="10vw">
       <Heading as="h1" size={{ base: '2xl', md: '3xl', lg: '4xl' }}>
         Supply Chain Dapp
       </Heading>
@@ -28,15 +41,20 @@ function Home() {
           A decentralised Platform to manage your product shipping requirements!
         </Highlight>
       </Text>
-      <Box
-      
-      >
-      <a href="/forms"><Button mx="1vw"> Login </Button></a>
-      <a href="/forms"><Button bg='teal.200' color="black"> Signup </Button></a>
-      </Box>
-      
-      </VStack>
-    
+      {/* <Box>
+        {!isWalletConnected ? (
+          <Button mx="1vw" onClick={handleConnectWallet}>
+            Connect Wallet
+          </Button>
+        ) : (
+          <Text>Wallet connected</Text>
+          {
+            props.handleButtonClick(true)
+          }
+          // Add your logic here for the connected wallet state
+        )}
+      </Box> */}
+    </VStack>
   );
 }
 
