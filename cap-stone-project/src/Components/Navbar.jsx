@@ -19,37 +19,45 @@ const Navbar = props => {
     >
       {props.role == 'Company' ? (
         <>
-          <Link to="/add-products">
-            <Button style={{ margin: '0 20px', fontSize: '18px' }}>
-              Add Products
-            </Button>
-          </Link>
+          
           <Link to="/add-hub">
-            <Button style={{ margin: '0 20px', fontSize: '18px' }}>
+            <Button style={{ margin: '0 20px', fontSize: '18px' }} backgroundColor="teal.200" color="black">
               Add Hub
             </Button>
           </Link>
-          <Link to="/product-status">
-            <Button style={{ margin: '0 20px', fontSize: '18px' }}>
-              Product Status
+          <Link to="/all-hubs">
+            <Button style={{ margin: '0 20px', fontSize: '18px' }} backgroundColor="teal.200" color="black">
+              View Hubs
+            </Button>
+          </Link>
+          <Link to="/add-products">
+            <Button style={{ margin: '0 20px', fontSize: '18px' }} backgroundColor="teal.200" color="black">
+              Add Products
             </Button>
           </Link>
           <Link to="/all-product-status">
-            <Button style={{ margin: '0 20px', fontSize: '18px' }}>
+            <Button style={{ margin: '0 20px', fontSize: '18px' }} backgroundColor="teal.200" color="black">
               All Products
             </Button>
           </Link>
+          <Link to="/product-status">
+            <Button style={{ margin: '0 20px', fontSize: '18px' }} backgroundColor="teal.200" color="black">
+              Product Status
+            </Button>
+          </Link>
+         
+         
         </>
       ) : (
         <Link to="/scan-shipment">
-          <Button style={{ margin: '0 20px', fontSize: '18px' }}>
+          <Button style={{ margin: '0 20px', fontSize: '18px' }} backgroundColor="teal.200" color="black">
             Scan Shipment
           </Button>
         </Link>
       )}
 
       <Link to="/about">
-        <Button style={{ margin: '0 20px', fontSize: '18px' }}>About</Button>
+        <Button style={{ margin: '0 20px', fontSize: '18px' }} backgroundColor="teal.200" color="black">About</Button>
       </Link>
       <ColorModeSwitcher justifySelf="flex-end" />
     </Box>

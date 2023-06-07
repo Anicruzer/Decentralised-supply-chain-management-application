@@ -8,6 +8,7 @@ import {
   IconButton,
   Input,
   Text,
+  Heading
 } from '@chakra-ui/react';
 import { FaQrcode } from 'react-icons/fa';
 import jsQR from 'jsqr';
@@ -35,7 +36,8 @@ function ScanShipment() {
     document.getElementById('prodlocation').value = autoLocation;
   }
 
-  const handleImageUpload = async event => {
+  const handleImageUpload =  (event) => {
+    console.log("----------------------------------Image upload----------------------------------");
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -44,6 +46,8 @@ function ScanShipment() {
         const image = new Image();
         image.src = imageDataUrl;
         await image.decode();
+
+        console.log("imageurl:"+imageDataUrl);
 
         const canvas = document.createElement('canvas');
         canvas.width = image.width;
@@ -112,13 +116,18 @@ function ScanShipment() {
   };
 
   return (
-    <Card p={8} borderRadius="md">
+    <Card p={8} width="80vw">
       <Box className="greyarea">
-        <Text as="h5">Please fill in the following information</Text>
+        
+        <Heading>Scan Shipment</Heading>
+          <Text fontSize="sm" mb={6}>
+          Scan the QR Code or Enter the productID to update the product's current status
+        </Text>
+          
         <form onSubmit={handleSubmit}>
           <Box>
             <FormControl>
-              <FormLabel>Received Product ID</FormLabel>
+              <FormLabel>Product ID</FormLabel>
               <Box
                 style={{
                   display: 'flex',
@@ -131,6 +140,7 @@ function ScanShipment() {
                   type="text"
                   value={prodId}
                   onChange={handleProdIdChange}
+                  placeholder='Scan QR Code or Enter manually'
                   required
                 />
                 <label htmlFor="image-upload">
@@ -151,7 +161,7 @@ function ScanShipment() {
               </Box>
             </FormControl>
           </Box>
-          <Button type="submit">Update</Button>
+          <Button colorScheme="teal" type="submit" width="50vw" mt={4}> Update</Button>
         </form>
       </Box>
     </Card>

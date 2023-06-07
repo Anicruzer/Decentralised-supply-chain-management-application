@@ -8,7 +8,7 @@ import {
     Grid,
     theme,
     Button,
-    Highlight, Input
+    Highlight, Input, Card
 } from '@chakra-ui/react';
 import { Routes, Route } from 'react-router-dom';
 import About from './Components/About';
@@ -20,6 +20,8 @@ import Navbar from './Components/Navbar';
 import { contractAbi, contractAddress } from './ContractInfo';
 import { ethers } from 'ethers';
 import AllProducts from './Components/AllProducts';
+import AllHubs from './Components/AllHubs';
+import './App.css';
 
 
 function App() {
@@ -75,7 +77,7 @@ function App() {
 
                 }
 
-              
+
                 console.log('contract executed');
             } catch (error) {
                 console.error('Error:', error);
@@ -131,83 +133,111 @@ function App() {
 
     return (
         <ChakraProvider theme={theme}>
-            <Box textAlign="center" fontSize="xl">
-                <Grid minH="100vh" p={3}>
-                    <Box>
+            <section>
+                <Box textAlign="center" fontSize="xl">
+                    <Grid minH="100vh" p={3}>
+                        <Box>
 
-                        {!isWalletConnected ? (
-                            <VStack spacing={8} m="10vw">
-                                <Heading as="h1" size={{ base: '2xl', md: '3xl', lg: '4xl' }}>
-                                    Supply Chain Dapp
-                                </Heading>
-                                <Text fontSize="2xl" as="em">
-                                    <Highlight
-                                        query={['decentralised']}
-                                        styles={{
-                                            px: '3',
-                                            py: '1',
-                                            rounded: 'full',
-                                            bg: 'teal.100',
+                            {!isWalletConnected ? (
+                                //First Home Screen before connecting to the website
+                                <VStack spacing={8} m="10vw">
+                                    <Heading as="h1" size={{ base: '2xl', md: '3xl', lg: '4xl' }}>
+                                        Supply Chain Dapp
+                                    </Heading>
+                                    <Text fontSize="2xl" as="em">
+                                        <Highlight
+                                            query={['decentralised']}
+                                            styles={{
+                                                px: '3',
+                                                py: '1',
+                                                rounded: 'full',
+                                                bg: 'teal.300',
+                                            }}
+                                        >
+                                            A decentralised Platform to manage your product shipping
+                                            requirements!
+                                        </Highlight>
+                                    </Text>
+                                    <Button mx="1vw" onClick={handleButtonClick} bg="teal.200" color="black">
+                                        Connect Wallet
+                                    </Button>
+                                </VStack>
+                            ) : (role == 'New' ? (
+
+                                // has connected for the first time
+                                <Box p={4} textAlign="center" display="flex" flexDirection="column" alignItems="center" justifyContent="center" >
+                                    <Card p={5} style={{
+                                        boxShadow: "md",
+                                        borderRadius: "md",
+                                        width:"80vw"
+                                    }} bg="teal.600" >
+                                        <Box style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
+                                        <Text fontSize="xl" fontWeight="bold" >
+                                            Welcome!
+                                            
+                                        </Text>
+                                        <Text  fontSize="sm">
+                                            Start your decentralised journey by registering your company below!
+                                        </Text>
+                                        </Box>
+
+                                        <Box style={{display:"flex", justifyContent:"center", marginTop:"1vh"}}>
+                                        <Text mb={2} mx="1vw" >Company Name </Text>
+                                        <Input value={value} onChange={handleChange} placeholder="Enter your company name" width="60vw" />
+                                        </Box>
+
+                                        <Button mt={4} bg="#fff" color="#000"  onClick={handleRegisterButton}>
+                                            Register
+                                        </Button>
+                                    </Card>
+                                    <Text mt={2} fontSize="sm" fontStyle="italic">
+                                            If you are a Hub, contact your company to add your wallet address as an authorized Hub!
+                                        </Text>
+                                </Box>
+
+                            ) : (
+                                // React router connections
+                                <Box>
+                                    <Navbar role={role} />
+                                    <Box
+                                        style={{
+                                            marginTop: '5vh',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
                                         }}
                                     >
-                                        A decentralised Platform to manage your product shipping
-                                        requirements!
-                                    </Highlight>
-                                </Text>
-                                <Button mx="1vw" onClick={handleButtonClick}>
-                                    Connect Wallet
-                                </Button>
-                            </VStack>
-                        ) : (role == 'New' ? (
-                            <>  
-                                <Box>
-                                    <Text>Welcome new user!</Text>
-                                    <Text>If you are a Hub, contact your company to add your wallet address as an authorised Hub!</Text>
-                                    <Text>If you are a Company, Enter your name below to register as a new company!</Text>
-                                    <Input
-                                        value={value}
-                                        onChange={handleChange}
-                                        placeholder='Company Name'
-                                        size='sm'
-                                    />
-                                    <Button onClick={handleRegisterButton}> Register</Button>
+                                        <Routes>
+                                            <Route path="/about" element={<About />} />
+                                            {role == 'Company' ? (
+                                                <>
+                                                    <Route path="/product-status" element={<ProductStatus />} />
+                                                    <Route path="/all-product-status" element={<AllProducts />} />
+                                                    <Route path="/all-hubs" element={<AllHubs />} />
+                                                    
+                                                    <Route path="/add-products" element={<AddProduct />} />
+                                                    <Route path="/add-hub" element={<AddHub />} />
+                                                </>
+                                            ) : (
+                                                <Route path="/scan-shipment" element={<ScanShipment />} />
+                                            )}
 
+                                            <Route path="/" element={<About />}>
+                                                <Route path="*" element={<h1>Error!</h1>} />
+                                            </Route>
+                                        </Routes>
+                                    </Box>
                                 </Box>
-                            </>
-                        ) : (
-                            <Box>
-                                <Navbar role={role} />
-                                <Box
-                                    style={{
-                                        marginTop: '5vh',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}
-                                >
-                                    <Routes>
-                                        <Route path="/about" element={<About />} />
-                                        {role == 'Company' ? (
-                                            <>
-                                                <Route path="/product-status" element={<ProductStatus />} />
-                                                <Route path="/all-product-status" element={<AllProducts />} />
-                                                <Route path="/add-products" element={<AddProduct />} />
-                                                <Route path="/add-hub" element={<AddHub />} />
-                                            </>
-                                        ) : (
-                                            <Route path="/scan-shipment" element={<ScanShipment />} />
-                                        )}
+                            ))}
+                        </Box>
+                    </Grid>
+                </Box>
 
-                                        <Route path="/" element={<ProductStatus />}>
-                                            <Route path="*" element={<h1>Error!</h1>} />
-                                        </Route>
-                                    </Routes>
-                                </Box>
-                            </Box>
-                        ))}
-                    </Box>
-                </Grid>
-            </Box>
+                <div class='air air1'></div>
+                <div class='air air2'></div>
+                <div class='air air3'></div>
+                <div class='air air4'></div>
+            </section>
         </ChakraProvider>
     );
 }

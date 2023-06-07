@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import { inject } from '@vercel/analytics';
 import { BrowserRouter } from 'react-router-dom';
 
- 
+
 inject();
 
 const container = document.getElementById('root');
@@ -18,6 +18,7 @@ root.render(
     <ColorModeScript />
     <BrowserRouter>
       <App />
+      
     </BrowserRouter>
   </StrictMode>
 );

@@ -51,31 +51,33 @@ function AllProducts() {
 
   return (
     <ChakraProvider>
-      <Center>
-        <Card style={{ padding: '1vw%', width:"80vw" }}>
-          <Heading>All Company Products</Heading>
-          {productData && (
-            <Box mt={8} p={4} borderWidth={1} borderRadius="md" >
-              <Box width="100%" margin="1%" padding="1%">
-                <Box  style={{display:"flex", flexDirection:"row", justifyContent:"space-between", alignItems:"center" }}>
-                <Text fontWeight="bold">Address</Text>
+   <Center>
+      <Card p={8} width="80vw">
+        <Heading>All Company Products</Heading>
+        <Text fontSize="sm">
+          View all the products that are registered under your company
+        </Text>
+        {productData && (
+          <Box mt={8} p={4} borderWidth={1} borderRadius="md">
+            <Box width="100%" margin="1%" padding="1%">
+              <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
+                <Text fontWeight="bold">Product ID</Text>
                 <Text fontWeight="bold">Product Name</Text>
-                </Box>
-                  {productData.map((item, index) => {
-                    const [address, productName] = item.split(' - ');
-                    return (
-                      <Box  style={{display:"flex", flexDirection:"row", justifyContent:"space-between", alignItems:"center" }}>
-                        <Text>{address}</Text>
-                        <Text>{productName}</Text>
-                      </Box>
-                    );
-                  })}
-                
               </Box>
+              {productData.map((item, index) => {
+                const [address, productName] = item.split(" - ");
+                return (
+                  <Box key={index} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mt={2} bg="teal.200" color="black" p="1%" borderRadius="md">
+                    <Text>{address}</Text>
+                    <Text>{productName}</Text>
+                  </Box>
+                );
+              })}
             </Box>
-          )}
-        </Card>
-      </Center>
+          </Box>
+        )}
+      </Card>
+    </Center>
     </ChakraProvider>
   );
 }

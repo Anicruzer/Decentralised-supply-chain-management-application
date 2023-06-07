@@ -10,7 +10,7 @@ import {
   Input,
   Stack,
   Text,
-  Card
+  Card,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { contractAbi, contractAddress } from '../ContractInfo';
@@ -19,17 +19,18 @@ function ProductStatus() {
   const [productCode, setProductCode] = useState('');
   const [productData, setProductData] = useState('');
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
+  const [check, setCheck] = useState(true);
 
-  const handleProductCodeChange = (event) => {
+  const handleProductCodeChange = event => {
     setProductCode(event.target.value);
   };
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     setSubmitButtonClicked(true);
     // Handle form submission
     console.log('Product Code:', productCode);
-    
+
     try {
       const { ethereum } = window;
       if (ethereum) {
@@ -47,12 +48,16 @@ function ProductStatus() {
         console.table(loginCheck);
         if (loginCheck.toString() == '2') {
           const allProductsOfCompany = await contract.getCompanyProducts();
-          console.log(allProductsOfCompany)
+          console.log(allProductsOfCompany);
           console.log(productCode);
-          const currentProductStatus = await contract.getCurrentStatus(productCode);
+          const currentProductStatus = await contract.getCurrentStatus(
+            productCode
+          );
           console.log(currentProductStatus);
-          if(currentProductStatus.length==0)alert("Product has not been dispatched yet");
+          if (currentProductStatus.length == 0)
+            alert('Product has not been dispatched yet');
           setProductData(currentProductStatus);
+          setCheck(false);
         } else alert('Only Companies can register Hubs');
       } else {
         console.log("Ethereum object doesn't exist!");
@@ -60,36 +65,66 @@ function ProductStatus() {
     } catch (error) {
       console.log(error);
     }
-    
-    
   };
 
   return (
     <ChakraProvider>
       <Center>
-      <Card style={{padding:"2%"}}>
-          <Heading>Product Status</Heading>
-          <form onSubmit={handleSubmit}>
-            <Stack spacing={4} mt={8}>
-              <FormControl id="productCode">
-                <FormLabel>Enter Product Code</FormLabel>
-                <Input
-                  type="text"
-                  value={productCode}
-                  onChange={handleProductCodeChange}
-                  required
-                />
-              </FormControl>
-              <Button type="submit">Search</Button>
-            </Stack>
-          </form>
-          {productData.length!=0 && ( 
-          productData.map((item, index) => (
-              <Box key={index} mb={4} p={2} >
+        <Card p={8} width="80vw">
+          {check ? (
+            <>
+              <Heading>Product Status</Heading>
+              <Text fontSize="sm">check the status of your product</Text>
+              <form onSubmit={handleSubmit}>
+                <Stack spacing={4} mt={8}>
+                  <FormControl id="productCode">
+                    <FormLabel>Enter Product Code</FormLabel>
+                    <Input
+                      type="text"
+                      value={productCode}
+                      onChange={handleProductCodeChange}
+                      required
+                    />
+                  </FormControl>
+                  <Button colorScheme="teal" type="submit">
+                    
+                    Search
+                  </Button>
+                </Stack>
+              </form>
+            </>
+          ) : (
+            <>
+              <Heading>Current Status</Heading>
+              {productData.length != 0 &&
+                productData.map((item, index) => (
+                  <Box
+                    key={index}
+                    p={2}
+                    borderWidth={1}
+                    borderRadius="md"
+                    bg="teal.200"
+                    color="#000"
+                    mt={2}
+                  >
+                    <Text>
+                      {new Date(item.timestamp).toLocaleString()} :
+                      {item.hubName} [ {item.hub} ]
+                    </Text>
+                  </Box>
+                ))}
+              <Button
+                bg="teal.500"
+                color="black"
+                mt={6}
+                type="submit"
+                onClick={() => setCheck(true)}
+              >
                 
-                <Text>{item.hub} at {item.timestamp}</Text>
-              </Box>))) 
-          }
+                Check another
+              </Button>
+            </>
+          )}
         </Card>
       </Center>
     </ChakraProvider>
