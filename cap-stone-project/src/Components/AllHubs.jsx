@@ -17,6 +17,7 @@ import { contractAbi, contractAddress } from '../ContractInfo';
 
 function AllHubs() {
   const [productData, setProductData] = useState('');
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleSubmit = async event => {
     try {
@@ -48,29 +49,38 @@ function AllHubs() {
   };
 
   useEffect(() => handleSubmit, []);
+  useEffect(() => handleSubmit, [buttonClicked]);
 
   return (
     <ChakraProvider>
       <Center>
-      <Card p={8} width="80vw"  >
-        <Heading>All Company Hubs</Heading>
-        <Text fontSize="sm" >
-          View all the hubs that are registered under your company
-        </Text>
-        {productData && (
-          <Box mt={4} p={4}  borderRadius="md">
-            
-            
-              {productData.map((item, index) => (
-                <Box key={index} p={2} borderWidth={1} borderRadius="md" bg="teal.200" color="#000" mt={2}>
-                  <Text>{item.hubName}</Text>
+        <Card p={8} width="80vw">
+          <Heading>All Company Hubs</Heading>
+          <Text fontSize="sm">
+            View all the hubs that are registered under your company
+          </Text>
+          { !buttonClicked? <Button onClick={()=>setButtonClicked(true)}> View all</Button> : (
+              productData && (
+                <Box mt={4} p={4} borderRadius="md">
+                  {productData.map((item, index) => (
+                    <Box
+                      key={index}
+                      p={2}
+                      borderWidth={1}
+                      borderRadius="md"
+                      bg="teal.200"
+                      color="#000"
+                      mt={2}
+                    >
+                      <Text>{item.hubName}</Text>
+                    </Box>
+                  ))}
                 </Box>
-              ))}
-            </Box>
+              )  
+          )}
           
-        )}
-      </Card>
-    </Center>
+        </Card>
+      </Center>
     </ChakraProvider>
   );
 }
