@@ -49,6 +49,7 @@ function AllProducts() {
   };
 
   useEffect(() => handleSubmit, []);
+  useEffect(() => handleSubmit, [buttonClicked]);
 
   return (
     <ChakraProvider>
