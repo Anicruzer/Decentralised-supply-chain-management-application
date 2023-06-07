@@ -59,7 +59,7 @@ function AllHubs() {
           <Text fontSize="sm">
             View all the hubs that are registered under your company
           </Text>
-          { !buttonClicked? <Button onClick={()=>setButtonClicked(true)}> View all</Button> : (
+          { !buttonClicked? <Button bg="teal.200" color="black" mt={2} onClick={()=>setButtonClicked(true)}> View all</Button> : (
               productData && (
                 <Box mt={4} p={4} borderRadius="md">
                   {productData.map((item, index) => (
