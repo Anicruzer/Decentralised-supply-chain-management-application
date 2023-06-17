@@ -108,7 +108,7 @@ function ProductStatus() {
                     mt={2}
                   >
                     <Text>
-                      {new Date(item.timestamp).toLocaleString()} :
+                      {item.timestamp} :
                       {item.hubName} [ {item.hub} ]
                     </Text>
                   </Box>
